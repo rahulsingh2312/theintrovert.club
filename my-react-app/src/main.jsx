@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
           {/* Social Icons */}
           <div className="flex space-x-3">
             <a
-              href="https://t.me/your_telegram_link"
+              href="https://t.me/tokenlaunchDecember"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-700 transition transform hover:scale-110"
@@ -26,7 +26,7 @@ createRoot(document.getElementById('root')).render(
               <Send size={16} />
             </a>
             <a
-              href="https://x.com/your_x_link"
+              href="https://x.com/introvertedcto"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition transform hover:scale-110"
