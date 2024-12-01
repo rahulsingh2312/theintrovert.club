@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
 const CrowdMovementApp = () => {
+  // Media query hook to detect screen size
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   // Get actual screen dimensions
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [blueBall, setBlueBall] = useState({ x: 0, y: 0 });
+
+  // Dynamic number of balls based on screen size
+  const DESKTOP_BALL_COUNT = 300;
+  const MOBILE_BALL_COUNT = 200;
+
+  // Initialize red balls based on screen size
   const [redBalls, setRedBalls] = useState(
-    Array.from({ length: 300 }, (_, index) => ({
+    Array.from({ length: isMobile ? MOBILE_BALL_COUNT : DESKTOP_BALL_COUNT }, (_, index) => ({
       id: index,
       originalX: Math.random() * screenWidth - screenWidth / 2,
       originalY: Math.random() * screenHeight - screenHeight / 2,
@@ -15,16 +24,34 @@ const CrowdMovementApp = () => {
     }))
   );
 
-  // Update screen dimensions on resize
+  // Update screen dimensions and mobile status on resize
   useEffect(() => {
     const handleResize = () => {
-      setScreenWidth(window.innerWidth);
+      const newWidth = window.innerWidth;
+      const newIsMobile = newWidth <= 768;
+      
+      setScreenWidth(newWidth);
       setScreenHeight(window.innerHeight);
+      setIsMobile(newIsMobile);
+
+      // Regenerate balls when switching between mobile and desktop
+      if (newIsMobile !== isMobile) {
+        const newBallCount = newIsMobile ? MOBILE_BALL_COUNT : DESKTOP_BALL_COUNT;
+        setRedBalls(
+          Array.from({ length: newBallCount }, (_, index) => ({
+            id: index,
+            originalX: Math.random() * newWidth - newWidth / 2,
+            originalY: Math.random() * window.innerHeight - window.innerHeight / 2,
+            x: Math.random() * newWidth - newWidth / 2,
+            y: Math.random() * window.innerHeight - window.innerHeight / 2
+          }))
+        );
+      }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isMobile]);
 
   const REPULSION_STRENGTH = 200;
   const INTERACTION_DISTANCE = 150;
@@ -83,7 +110,7 @@ const CrowdMovementApp = () => {
       >
         {/* Blue Ball (Movable) */}
         <img 
-          src="/gut.png"
+          src="/guy3.png"
           alt="blue character" 
           className="absolute w-16 h-16 rounded-full"
           style={{
@@ -96,7 +123,7 @@ const CrowdMovementApp = () => {
         {redBalls.map(ball => (
           <img
             key={ball.id}
-            src="/gut.png"
+            src="/guy3.png"
             alt="red character"
             className="absolute w-12 h-12 rounded-full"
             style={{
