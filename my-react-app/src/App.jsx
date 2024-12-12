@@ -157,7 +157,7 @@ const CrowdMovementApp = () => {
   return (
     <div className="flex flex-col items-center justify-center p-1">
       <div
-        className="relative w-full h-screen bg-white shadow-2xl rounded-2xl border-4 border-gray-300 overflow-hidden"
+        className="relative w-full h-screen bg-white overflow-hidden"
         style={{ width: screenWidth, height: screenHeight }}
       >
         <div className="flex py-3 w-fit mx-auto mt-2 rounded-full bg-black border-black bg-opacity-60 backdrop-blur-sm justify-center relative z-50">
@@ -241,7 +241,7 @@ const CrowdMovementApp = () => {
             key={ball.id}
             src="/guy3.png"
             alt="red character"
-            className="absolute w-8 rounded-full max-sm:ease-out max-sm:duration-300"
+            className="absolute w-8 rounded-full max-sm:ease-out"
             style={{
               left: `calc(50% + ${ball.x}px - 24px)`,
               top: `calc(50% + ${ball.y}px - 24px)`,
