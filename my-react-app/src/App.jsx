@@ -1,4 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import {
+  Send,
+  Twitter,
+  Instagram,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
+import "./index.css";
 
 const CrowdMovementApp = () => {
   // Media query hook to detect screen size
@@ -10,18 +20,21 @@ const CrowdMovementApp = () => {
   const [blueBall, setBlueBall] = useState({ x: 0, y: 0 });
 
   // Dynamic number of balls based on screen size
-  const DESKTOP_BALL_COUNT = 300;
+  const DESKTOP_BALL_COUNT = 400;
   const MOBILE_BALL_COUNT = 200;
 
   // Initialize red balls based on screen size
   const [redBalls, setRedBalls] = useState(
-    Array.from({ length: isMobile ? MOBILE_BALL_COUNT : DESKTOP_BALL_COUNT }, (_, index) => ({
-      id: index,
-      originalX: Math.random() * screenWidth - screenWidth / 2,
-      originalY: Math.random() * screenHeight - screenHeight / 2,
-      x: Math.random() * screenWidth - screenWidth / 2,
-      y: Math.random() * screenHeight - screenHeight / 2
-    }))
+    Array.from(
+      { length: isMobile ? MOBILE_BALL_COUNT : DESKTOP_BALL_COUNT },
+      (_, index) => ({
+        id: index,
+        originalX: Math.random() * screenWidth - screenWidth / 2,
+        originalY: Math.random() * screenHeight - screenHeight / 2,
+        x: Math.random() * screenWidth - screenWidth / 2,
+        y: Math.random() * screenHeight - screenHeight / 2,
+      })
+    )
   );
 
   // Update screen dimensions and mobile status on resize
@@ -29,28 +42,31 @@ const CrowdMovementApp = () => {
     const handleResize = () => {
       const newWidth = window.innerWidth;
       const newIsMobile = newWidth <= 768;
-      
+
       setScreenWidth(newWidth);
       setScreenHeight(window.innerHeight);
       setIsMobile(newIsMobile);
 
       // Regenerate balls when switching between mobile and desktop
       if (newIsMobile !== isMobile) {
-        const newBallCount = newIsMobile ? MOBILE_BALL_COUNT : DESKTOP_BALL_COUNT;
+        const newBallCount = newIsMobile
+          ? MOBILE_BALL_COUNT
+          : DESKTOP_BALL_COUNT;
         setRedBalls(
           Array.from({ length: newBallCount }, (_, index) => ({
             id: index,
             originalX: Math.random() * newWidth - newWidth / 2,
-            originalY: Math.random() * window.innerHeight - window.innerHeight / 2,
+            originalY:
+              Math.random() * window.innerHeight - window.innerHeight / 2,
             x: Math.random() * newWidth - newWidth / 2,
-            y: Math.random() * window.innerHeight - window.innerHeight / 2
+            y: Math.random() * window.innerHeight - window.innerHeight / 2,
           }))
         );
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isMobile]);
 
   const REPULSION_STRENGTH = 200;
@@ -60,34 +76,35 @@ const CrowdMovementApp = () => {
 
   const calculateDistance = (ball1, ball2) => {
     return Math.sqrt(
-      Math.pow(ball1.x - ball2.x, 2) + 
-      Math.pow(ball1.y - ball2.y, 2)
+      Math.pow(ball1.x - ball2.x, 2) + Math.pow(ball1.y - ball2.y, 2)
     );
   };
 
   const updateRedBallPositions = (newBlueBallPosition) => {
-    return redBalls.map(redBall => {
+    return redBalls.map((redBall) => {
       const distance = calculateDistance(newBlueBallPosition, redBall);
-      
+
       if (distance < INTERACTION_DISTANCE) {
         const dx = redBall.x - newBlueBallPosition.x;
         const dy = redBall.y - newBlueBallPosition.y;
-        
+
         const length = Math.sqrt(dx * dx + dy * dy);
-        const escapeX = (dx / length) * (REPULSION_STRENGTH / (distance + 1)) * ESCAPE_SPEED;
-        const escapeY = (dy / length) * (REPULSION_STRENGTH / (distance + 1)) * ESCAPE_SPEED;
+        const escapeX =
+          (dx / length) * (REPULSION_STRENGTH / (distance + 1)) * ESCAPE_SPEED;
+        const escapeY =
+          (dy / length) * (REPULSION_STRENGTH / (distance + 1)) * ESCAPE_SPEED;
 
         return {
           ...redBall,
           x: redBall.x + escapeX,
-          y: redBall.y + escapeY
+          y: redBall.y + escapeY,
         };
       }
-      
+
       return {
         ...redBall,
         x: redBall.x + (redBall.originalX - redBall.x) * RETURN_SPEED,
-        y: redBall.y + (redBall.originalY - redBall.y) * RETURN_SPEED
+        y: redBall.y + (redBall.originalY - redBall.y) * RETURN_SPEED,
       };
     });
   };
@@ -95,71 +112,142 @@ const CrowdMovementApp = () => {
   const moveBlueBall = (dx, dy) => {
     const newPosition = {
       x: Math.max(Math.min(blueBall.x + dx, screenWidth / 2), -screenWidth / 2),
-      y: Math.max(Math.min(blueBall.y + dy, screenHeight / 2), -screenHeight / 2)
+      y: Math.max(
+        Math.min(blueBall.y + dy, screenHeight / 2),
+        -screenHeight / 2
+      ),
     };
-    
+
     setBlueBall(newPosition);
     setRedBalls(updateRedBallPositions(newPosition));
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      switch (event.key) {
+        case "ArrowUp":
+        case "w":
+          moveBlueBall(0, -20);
+          break;
+        case "ArrowDown":
+        case "s":
+          moveBlueBall(0, 20);
+          break;
+        case "ArrowLeft":
+        case "a":
+          moveBlueBall(-20, 0);
+          break;
+        case "ArrowRight":
+        case "d":
+          moveBlueBall(20, 0);
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [moveBlueBall]);
+
   return (
     <div className="flex flex-col items-center justify-center p-1">
-      <div 
+      <div
         className="relative w-full h-screen bg-white shadow-2xl rounded-2xl border-4 border-gray-300 overflow-hidden"
         style={{ width: screenWidth, height: screenHeight }}
       >
+        <div className="flex py-3 w-fit mx-auto mt-2 rounded-full bg-black border-black bg-opacity-60 backdrop-blur-sm justify-center relative z-50">
+          <div className=" px-4 flex gap-44 max-md:gap-20 max-sm:gap-4 items-center justify-between">
+            {/* Title Section */}
+            <div className="flex items-center space-x-3">
+              <img src="/$Introvert.png" alt="" className="h-6" />
+              <p className="text-sm text-white">coming soon</p>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex space-x-3">
+              <a
+                href="https://t.me/theintrovertclub"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-700 transition transform hover:scale-110"
+              >
+                <Send size={16} />
+              </a>
+              <a
+                href="https://x.com/introvertedcto"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition transform hover:scale-110"
+              >
+                <Twitter size={16} />
+              </a>
+              <a
+                href="https://www.instagram.com/the_introvertclub/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-pink-400 text-white rounded-full hover:bg-gray-800 transition transform hover:scale-110"
+              >
+                <Instagram size={16} />
+              </a>
+            </div>
+          </div>
+        </div>
         {/* Blue Ball (Movable) */}
-        <img 
+        <img
           src="/guy3.png"
-          alt="blue character" 
-          className="absolute w-16 h-16 rounded-full"
+          alt="blue character"
+          className="absolute w-16 h-16 rounded-full ease-out duration-300"
           style={{
             left: `calc(50% + ${blueBall.x}px - 32px)`,
-            top: `calc(50% + ${blueBall.y}px - 32px)`
+            top: `calc(50% + ${blueBall.y}px - 32px)`,
           }}
         />
-        
+
         {/* Red Balls (Repelling) */}
-        {redBalls.map(ball => (
+        {redBalls.map((ball) => (
           <img
             key={ball.id}
             src="/guy3.png"
             alt="red character"
-            className="absolute w-12 h-12 rounded-full"
+            className="absolute w-12 h-12 rounded-full ease-out duration-300"
             style={{
               left: `calc(50% + ${ball.x}px - 24px)`,
-              top: `calc(50% + ${ball.y}px - 24px)`
+              top: `calc(50% + ${ball.y}px - 24px)`,
             }}
           />
         ))}
 
         <div className="fixed bottom-0 left-0 right-0 pb-6 z-20">
-          <div className="flex-col flex mx-auto items-center space-y-2 max-w-[600px]">
-            <button              
-              onClick={() => moveBlueBall(0, -20)}              
-              className="p-3 bg-black text-white rounded-full w-24 hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"           
+          <div className="flex-col flex mx-auto items-center bg-black bg-opacity-60 backdrop-blur-sm text-white font-medium rounded-full border space-y-2 max-w-fit px-4 py-1 max-md:hidden">
+            Use WASD or Arrow keys to move
+          </div>
+          <div className="flex-col flex mx-auto items-center space-y-2 max-w-[600px] md:hidden">
+            <button
+              onClick={() => moveBlueBall(0, -20)}
+              className="p-3 bg-black bg-opacity-40 backdrop-blur-md text-white rounded-full w-fit hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"
             >
-              ↑ Up           
+              <ChevronUp size={24} />
             </button>
-            <div className="flex space-x-2">
-              <button                
-                onClick={() => moveBlueBall(-20, 0)}                
-                className="p-3 bg-black text-white rounded-full w-24 hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"             
+            <div className="flex space-x-16">
+              <button
+                onClick={() => moveBlueBall(-20, 0)}
+                className="p-3 bg-black bg-opacity-40 backdrop-blur-md text-white rounded-full w-fit hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"
               >
-                ← Left             
+                <ChevronLeft size={24} />
               </button>
-              <button                
-                onClick={() => moveBlueBall(20, 0)}                
-                className="p-3 bg-black text-white rounded-full w-24 hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"             
+              <button
+                onClick={() => moveBlueBall(20, 0)}
+                className="p-3 bg-black bg-opacity-40 backdrop-blur-md text-white rounded-full w-fit hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"
               >
-                → Right             
+                <ChevronRight size={24} />
               </button>
             </div>
-            <button              
-              onClick={() => moveBlueBall(0, 20)}              
-              className="p-3 bg-black text-white rounded-full w-24 hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"           
+            <button
+              onClick={() => moveBlueBall(0, 20)}
+              className="p-3 bg-black bg-opacity-40 backdrop-blur-md text-white rounded-full w-fit hover:bg-blue-600 transition transform hover:scale-105 active:scale-95 shadow-md"
             >
-              ↓ Down           
+              <ChevronDown size={24} />
             </button>
           </div>
         </div>
