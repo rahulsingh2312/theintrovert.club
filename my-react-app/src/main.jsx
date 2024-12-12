@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import { Send, Twitter } from 'lucide-react';
+import { Send, Twitter , Instagram } from 'lucide-react';
 
 createRoot(document.getElementById('root')).render(
   <div className='overflow-hidden'>
@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
           {/* Social Icons */}
           <div className="flex space-x-3">
             <a
-              href="https://t.me/tokenlaunchDecember"
+              href="https://t.me/theintrovertclub"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-700 transition transform hover:scale-110"
@@ -32,6 +32,14 @@ createRoot(document.getElementById('root')).render(
               className="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition transform hover:scale-110"
             >
               <Twitter size={16} />
+            </a>
+            <a
+              href="https://www.instagram.com/the_introvertclub/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-pink-400 text-white rounded-full hover:bg-gray-800 transition transform hover:scale-110"
+            >
+              <Instagram size={16} />
             </a>
           </div>
         </div>
