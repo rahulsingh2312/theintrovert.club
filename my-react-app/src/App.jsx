@@ -70,7 +70,7 @@ const CrowdMovementApp = () => {
   }, [isMobile]);
 
   const REPULSION_STRENGTH = 200;
-  const INTERACTION_DISTANCE = 150;
+  const INTERACTION_DISTANCE = 200;
   const ESCAPE_SPEED = 10;
   const RETURN_SPEED = 0.1;
 
@@ -150,6 +150,10 @@ const CrowdMovementApp = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [moveBlueBall]);
 
+  useEffect(() => {
+    moveBlueBall(0, 0);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center p-1">
       <div
@@ -194,10 +198,37 @@ const CrowdMovementApp = () => {
           </div>
         </div>
         {/* Blue Ball (Movable) */}
+
+        <div className="bg-white flex gap-2 relative z-30 rounded-2xl border max-sm:m-2 max-sm:scale-75 border-gray-400 shadow-xl m-10 from-white to-gray-300 bg-opacity-50 backdrop-blur-md w-96 p-4">
+          <img
+            src="/introvertGuy.jpg"
+            className="relative z-30 h-32 rounded-full border-black border-4"
+            alt=""
+          />
+          <div className="flex-col gap-2">
+            <h1 className="font-medium">
+              Name: <img src="/$Introvert.png" className="invert w-44" alt="" />
+            </h1>
+            <h1 className="flex-col font-medium mt-3">
+              Strength:{" "}
+              <div>
+                <span className="text-xs px-2 py-1 bg-gradient-to-b from-white to-gray-200 border-gray-400 rounded-lg border text-black">
+                  Trading
+                </span>{" "}
+                <span className="text-xs px-2 py-1 bg-gradient-to-b from-white to-gray-200 border-gray-400 rounded-lg border text-black">
+                  Repel Humans
+                </span>
+              </div>
+            </h1>
+          </div>
+        </div>
+
         <img
           src="/guy3.png"
           alt="blue character"
-          className="absolute w-16 h-16 rounded-full ease-out duration-300"
+          className="absolute w-14 rounded-full ease-out duration-300 object-cover cursor-pointer "
+          onMouseOver={() => setCharacterCard(true)}
+          onMouseOut={() => setCharacterCard(false)}
           style={{
             left: `calc(50% + ${blueBall.x}px - 32px)`,
             top: `calc(50% + ${blueBall.y}px - 32px)`,
@@ -210,7 +241,7 @@ const CrowdMovementApp = () => {
             key={ball.id}
             src="/guy3.png"
             alt="red character"
-            className="absolute w-12 h-12 rounded-full ease-out duration-300"
+            className="absolute w-8 rounded-full max-sm:ease-out max-sm:duration-300"
             style={{
               left: `calc(50% + ${ball.x}px - 24px)`,
               top: `calc(50% + ${ball.y}px - 24px)`,
