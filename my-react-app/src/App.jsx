@@ -155,7 +155,7 @@ const CrowdMovementApp = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center p-1">
+    <div className="flex flex-col items-center justify-center">
       <div
         className="relative w-full h-screen bg-white overflow-hidden"
         style={{ width: screenWidth, height: screenHeight }}
