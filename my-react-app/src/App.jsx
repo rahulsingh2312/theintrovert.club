@@ -165,7 +165,7 @@ const CrowdMovementApp = () => {
             {/* Title Section */}
             <div className="flex items-center space-x-3">
               <img src="/$Introvert.png" alt="" className="h-6" />
-              <p className="text-sm text-white">coming soon</p>
+              {/* <p className="md:text-xs text-[px] text-white">ur7bsozWmLohyVwc2UHGbLNiRwdz5GQ4i7eBACcpump</p> */}
             </div>
 
             {/* Social Icons */}
