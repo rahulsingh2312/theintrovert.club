@@ -184,9 +184,10 @@ const CrowdMovementApp = () => {
         className="relative w-full h-screen bg-white overflow-hidden"
         style={{ width: screenWidth, height: screenHeight }}
       >
-        <div className="flex py-3 w-fit mx-auto mt-2 rounded-full bg-black border-black bg-opacity-60 backdrop-blur-sm justify-center relative z-50">
+        <div className="flex py-3 w-fit mx-auto  mt-2 rounded-full bg-black border-black bg-opacity-60 backdrop-blur-sm justify-center relative z-50">
           <div className=" px-4 flex gap-44 max-md:gap-20 max-sm:gap-4 items-center justify-between">
             {/* Title Section */}
+            {/* g */}
             <div className="flex items-center space-x-3">
               <img src="/$Introvert.png" alt="" className="h-6" />
               {/* <p className="md:text-xs text-[px] text-white">ur7bsozWmLohyVwc2UHGbLNiRwdz5GQ4i7eBACcpump</p> */}
