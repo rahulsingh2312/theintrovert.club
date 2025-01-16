@@ -9,6 +9,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import "./index.css";
+import { IoCopyOutline } from "react-icons/io5";
 
 const CrowdMovementApp = () => {
   // Media query hook to detect screen size
@@ -154,6 +155,29 @@ const CrowdMovementApp = () => {
     moveBlueBall(0, 0);
   }, []);
 
+  const handleCopy = () => {
+    const textElement = document.querySelector(".ca");
+
+    if (textElement) {
+      const textToCopy = textElement.textContent || textElement.innerText;
+
+      // Copy the text to the clipboard
+      navigator.clipboard.writeText(textToCopy).then(
+        () => {
+          console.log("Text copied to clipboard!");
+          alert("Text copied to clipboard!");
+        },
+        (err) => {
+          console.error("Failed to copy text: ", err);
+          alert("Failed to copy text.");
+        }
+      );
+    } else {
+      console.warn("No element with the class 'ca' found.");
+      alert("No text found to copy!");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div
@@ -221,6 +245,12 @@ const CrowdMovementApp = () => {
               </div>
             </h1>
           </div>
+        </div>
+        <div className="bg-white overflow-clip flex gap-2 justify-between relative z-30 rounded-2xl border max-sm:m-2 max-sm:scale-75 border-gray-400 shadow-xl ml-10 -mt-6 from-white to-gray-300 bg-opacity-50 backdrop-blur-md w-96 p-4">
+          <p className="text-xs font-medium ca">
+            2i2zQxCCx2xGeLSZZVPwyknQVX5SvxudXbBDttKVpump
+          </p>
+          <IoCopyOutline className="cursor-pointer" onClick={handleCopy} />
         </div>
 
         <img
