@@ -247,12 +247,12 @@ const CrowdMovementApp = () => {
             </h1>
           </div>
         </div>
-        <div className="bg-white overflow-clip flex gap-2 justify-between relative z-30 rounded-2xl border max-sm:m-2 max-sm:scale-75 border-gray-400 shadow-xl ml-10 -mt-6 from-white to-gray-300 bg-opacity-50 backdrop-blur-md w-96 p-4">
+        {/* <div className="bg-white overflow-clip flex gap-2 justify-between relative z-30 rounded-2xl border max-sm:m-2 max-sm:scale-75 border-gray-400 shadow-xl ml-10 -mt-6 from-white to-gray-300 bg-opacity-50 backdrop-blur-md w-96 p-4">
           <p className="text-xs font-medium ca">
             2i2zQxCCx2xGeLSZZVPwyknQVX5SvxudXbBDttKVpump
           </p>
           <IoCopyOutline className="cursor-pointer" onClick={handleCopy} />
-        </div>
+        </div> */}
 
         <img
           src="/guy3.png"
